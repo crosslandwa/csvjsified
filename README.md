@@ -6,7 +6,7 @@ I've extracted this common functionality (parse CSV) as I found myself re-writin
 
 ## Example usage
 
-Once you've `npm install`ed *csvjsified*, then simply
+Once you've installed the module via `npm install csvjsified`, to use it simply
 
 ```js
 const { fromFilePath } = require('csvjsified')
