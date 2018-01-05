@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { fromFilePath } = require('../csvjsified.js')
 
-function writeCsvFile(filename, headers, data) {
+function writeCsvFile (filename, headers, data) {
   return new Promise((resolve, reject) => {
     const content = [headers].concat(data).join('\n')
 

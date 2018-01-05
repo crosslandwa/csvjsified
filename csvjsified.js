@@ -21,11 +21,9 @@ const parseCsvLine = (delimiter) => {
       .map(field => field.trim().replace(delimiterReplacementRegex, ''))
 }
 
-function readFileContentAsString(filename) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filename, (err, data) => err ? reject(err) : resolve(data.toString()))
-  })
-}
+const readFileContentAsString = (filename) => new Promise((resolve, reject) => {
+  fs.readFile(filename, (err, data) => err ? reject(err) : resolve(data.toString()))
+})
 
 module.exports = {
   fromFilePath: (csvPath, {delimiter = '"'} = {}) => readFileContentAsString(csvPath)
