@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-function convertToJsObject(csvString) {
+const convertToJsObject = parseCsvLine => csvString => {
   const csvLines = csvString.split('\n')
   const csvHeaders = parseCsvLine(csvLines[0])
   const dataRows = csvLines.slice(1).map(parseCsvLine).filter(line => line.length)
@@ -11,9 +11,14 @@ function convertToJsObject(csvString) {
   }, {}))
 }
 
-function parseCsvLine (raw) {
-  return raw.trim().split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/)
-    .map(key => key.trim().replace(/"/g, ''))
+const parseCsvLine = (delimiter) => {
+  // original regex with hard-coded quote delimiter: /,(?=(?:[^"]*"[^"]*")*[^"]*$)/
+  // have to escape the delimiter when building the string, incase the delimiter is a special regex char (e.g. "|")
+  const fieldSeparationRegex = new RegExp(`,(?=(?:[^\\${delimiter}]*\\${delimiter}[^\\${delimiter}]*\\${delimiter})*[^\\${delimiter}]*$)`)
+  const delimiterReplacementRegex = new RegExp(`\\${delimiter}`, 'g')
+
+  return rawLine => rawLine.trim().split(fieldSeparationRegex)
+      .map(field => field.trim().replace(delimiterReplacementRegex, ''))
 }
 
 function readFileContentAsString(filename) {
@@ -23,6 +28,6 @@ function readFileContentAsString(filename) {
 }
 
 module.exports = {
-  fromFilePath: (csvPath) => readFileContentAsString(csvPath)
-    .then(convertToJsObject)
+  fromFilePath: (csvPath, {delimiter = '"'} = {}) => readFileContentAsString(csvPath)
+    .then(convertToJsObject(parseCsvLine(delimiter)))
 }

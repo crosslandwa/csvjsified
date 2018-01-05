@@ -42,4 +42,18 @@ describe('csvjsified, given a path to a csv file', () => {
       .then(assertParsedDataRespectsFieldDelimiters)
       .then(done, done.fail)
   })
+
+  it('parses delimited data respecting a supplied field delimiter', done => {
+    const assertParsedDataRespectsFieldDelimiters = parsedData => expect(parsedData[0])
+      .toEqual({
+        A: 'a',
+        B: '1,b',
+        C: 'c'
+      })
+
+    writeCsvFile('/tmp/temp.csv', 'A, B, C', ['a,|1,b|,|c|'])
+      .then(filePath => fromFilePath(filePath, { delimiter: '|' }))
+      .then(assertParsedDataRespectsFieldDelimiters)
+      .then(done, done.fail)
+  })
 })
