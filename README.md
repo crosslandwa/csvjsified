@@ -17,13 +17,19 @@ fromFilePath('/path/to/file.csv')
 /**
   For a CSV file with content like:
 
-  'header1','header2','header3'
-  'a1','b1','c1'
-  'a2','b2','c2'
+  "header1","header2","header3"
+  "a1","b1","c1"
+  "a2","b2","c2"
 
-  fromFilePath returns an array that prints:
+  fromFilePath returns an array that will print as:
 
   [ { header1: 'a1', header2: 'b1', header3: 'c1' },
   { header1: 'a2', header2: 'b2', header3: 'c2' } ]
 **/
+```
+
+By default, a quote `"` is used as a field delimiter. You can pass a custom delimiter in the [optional] parameters argument:
+```js
+const { fromFilePath } = require('csvjsified')
+fromFilePath('/path/to/file.csv', {delimiter: '|'}) // use pipe character as field delimiter
 ```
