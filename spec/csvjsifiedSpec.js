@@ -27,7 +27,7 @@ describe('csvjsified, given a path to a csv file', () => {
       .then(done, done.fail)
   })
 
-  it('parses delimited data (handling commas within the delimiters and empty fields)', done => {
+  it('parses delimited data (handling commas within the delimiters, empty fields and spaces around field separator)', done => {
     const assertParsedDataRespectsFieldDelimiters = parsedData => expect(parsedData[0])
       .toEqual({
         A: '',
@@ -37,7 +37,7 @@ describe('csvjsified, given a path to a csv file', () => {
         E: '3,c'
       })
 
-    writeCsvFile('/tmp/temp.csv', 'A, B, C, D, E', [',"1,a,b,",2,,"3,c"'])
+    writeCsvFile('/tmp/temp.csv', 'A, B, C, D, E', [',"1,a,b," , 2, ,"3,c"'])
       .then(fromFilePath)
       .then(assertParsedDataRespectsFieldDelimiters)
       .then(done, done.fail)
