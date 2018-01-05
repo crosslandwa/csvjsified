@@ -12,9 +12,8 @@ function convertToJsObject(csvString) {
 }
 
 function parseCsvLine (raw) {
-  return raw.trim().length === 0
-    ? []
-    : raw.split(',').map(key => key.trim().replace(/"/g, ''))
+  return raw.trim().split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/)
+    .map(key => key.trim().replace(/"/g, ''))
 }
 
 function readFileContentAsString(filename) {

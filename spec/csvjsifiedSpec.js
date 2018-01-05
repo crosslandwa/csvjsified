@@ -18,12 +18,28 @@ describe('csvjsified, given a path to a csv file', () => {
       .then(assertCsvHeadersUsedForParsedDataKeys)
       .then(done, done.fail)
   })
-  
+
   it('parses every row of data', done => {
     const assertParsedDataHas3Rows = parsedData => expect(parsedData.length).toEqual(3)
     writeCsvFile('/tmp/temp.csv', 'a, b, c', ['1,2,3', '2,2,3', '3,2,3'])
       .then(fromFilePath)
       .then(assertParsedDataHas3Rows)
+      .then(done, done.fail)
+  })
+
+  it('parses delimited data (handling commas within the delimiters and empty fields)', done => {
+    const assertParsedDataRespectsFieldDelimiters = parsedData => expect(parsedData[0])
+      .toEqual({
+        A: '',
+        B: '1,a,b,',
+        C: '2',
+        D: '',
+        E: '3,c'
+      })
+
+    writeCsvFile('/tmp/temp.csv', 'A, B, C, D, E', [',"1,a,b,",2,,"3,c"'])
+      .then(fromFilePath)
+      .then(assertParsedDataRespectsFieldDelimiters)
       .then(done, done.fail)
   })
 })
