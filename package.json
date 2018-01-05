@@ -2,7 +2,7 @@
   "name": "csvjsified",
   "version": "1.0.0",
   "description": "Parse a CSV file into a JS object fo further processing",
-  "main": "index.js",
+  "main": "csvjsified.js",
   "scripts": {
     "lint": "eslint *.js **/*.js",
     "test": "jasmine"
