@@ -1,12 +1,12 @@
 const fs = require('fs')
 
-function convertToJson(csvString, finalBalance = 0) {
+function convertToJsObject(csvString) {
   const csvLines = csvString.split('\n')
-  const tideKeys = parseCsvLine(csvLines[0])
+  const csvHeaders = parseCsvLine(csvLines[0])
   const dataRows = csvLines.slice(1).map(parseCsvLine).filter(line => line.length)
 
   return dataRows.map(row => row.reduce((acc, it, index) => {
-    acc[tideKeys[index]] = it
+    acc[csvHeaders[index]] = it
     return acc
   }, {}))
 }
@@ -25,5 +25,5 @@ function readFileContentAsString(filename) {
 
 module.exports = {
   fromFilePath: (csvPath) => readFileContentAsString(csvPath)
-    .then(convertToJson)
+    .then(convertToJsObject)
 }
