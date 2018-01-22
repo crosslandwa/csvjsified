@@ -1,9 +1,9 @@
 const fs = require('fs')
 
 const convertToJsObject = parseCsvLine => csvString => {
-  const csvLines = csvString.split('\n')
+  const csvLines = csvString.split('\n').filter(line => line.length)
   const csvHeaders = parseCsvLine(csvLines[0])
-  const dataRows = csvLines.slice(1).map(parseCsvLine).filter(line => line.length)
+  const dataRows = csvLines.slice(1).map(parseCsvLine)
 
   return dataRows.map(row => row.reduce((acc, it, index) => {
     acc[csvHeaders[index]] = it

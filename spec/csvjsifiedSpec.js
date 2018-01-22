@@ -56,4 +56,13 @@ describe('csvjsified, given a path to a csv file', () => {
       .then(assertParsedDataRespectsFieldDelimiters)
       .then(done, done.fail)
   })
+
+  it('filters empty lines from the supplied csv (and returns no empty data rows)', done => {
+    const assertOnlyOneRowReturned = parsedData => expect(parsedData.length).toEqual(1)
+
+    writeCsvFile('/tmp/temp.csv', 'A, B, C', ['', '1,2,3', ''])
+      .then(filePath => fromFilePath(filePath))
+      .then(assertOnlyOneRowReturned)
+      .then(done, done.fail)
+  })
 })
